@@ -1,0 +1,11 @@
+images:     
+  - name: "{{ docker_repo_name }}/admin_ui"
+    path: "{{ docker_apps_admin_ui }}"    
+    
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "admin_ui-{{ api_version }}-{{timestamp}}", envs: { API_URL: "https://{{ domain }}/{{ api_version }}/" }, ports: "{{ listen_port }}:8000", version: "{{ admin_ui_version }}" }
+      
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"

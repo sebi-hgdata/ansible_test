@@ -1,0 +1,13 @@
+- include: fragments/stop.yml  
+  vars: 
+      timestamp: "{{ previous_timestamp }}"
+  when: rolling_update == 'True' and previous_timestamp is defined
+  
+- include: fragments/kill.yml  
+  vars: 
+      timestamp: "{{ previous_timestamp }}"
+  when: rolling_update == 'False'  and previous_timestamp is defined
+  
+- file: path=/home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version }}/{{inventory_hostname}}_{{ previous_timestamp }}.timestamp state=absent
+  when: previous_timestamp is defined
+  sudo: no

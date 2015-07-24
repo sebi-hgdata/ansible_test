@@ -1,0 +1,11 @@
+images:     
+  - name: "{{ docker_repo_name }}/logstash"
+    path: "{{ docker_elk }}/logstash"  
+                        
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "logstash-{{ api_version }}-{{timestamp}}", version: "{{ sfdc_api_version }}" , volumes: ["/home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version }}/{{ sfdc_api_version }}/api/logs:/home/logstash/logs"], envs: { es: "{{ es }}"}}
+        
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"

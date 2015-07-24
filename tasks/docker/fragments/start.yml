@@ -1,0 +1,19 @@
+- name: 'start containers'
+  docker: 
+    image: "{{ item.image }}:{{ item.container_config.version }}"
+    ports: "{{ item.container_config.ports | default([]) }}"
+    name: "{{ item.container_config.name }}"
+    links: "{{ item.container_config.links | default([]) }}"    
+#    extra_hosts: "{{ item.container_config.extra_hosts | default({}) }}"
+    tty: "{{ item.container_config.tty | default(False)}}"
+    privileged: "{{ item.container_config.privileged | default(False) }}"
+    volumes: "{{ item.container_config.volumes | default([]) }}"
+    net: "{{ item.container_config.net | default('bridge') }}"
+    state: started      
+    env:   "{{ item.container_config.envs | default({}) }}"
+    restart_policy: "{{ restart_policy | default('no') }}"
+    restart_policy_retry: "{{ restart_policy_retry | default(0) }}"
+    volumes_from: "{{ item.container_config.volumes_from | default([]) }}"    
+  with_items:
+    - "{{ containers }}"
+  register: start_output

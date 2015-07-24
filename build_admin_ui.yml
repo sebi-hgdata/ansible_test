@@ -1,0 +1,5 @@
+- name: 'build admin ui image'
+  include: build.yml
+  vars: 
+    hosts: "admin_ui"
+    version: "{{ admin_ui_version }}"

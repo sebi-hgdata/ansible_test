@@ -1,0 +1,14 @@
+
+domain: "localhost" 
+
+images:       
+  - name: "{{ docker_repo_name }}/api"
+    path: "{{ docker_apps_sfdcapi }}/api"
+
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "api-{{ api_version }}-{{timestamp}}", ports: "{{ listen_port }}:9080, {{ listen_port|int +1 }}:9081", version: "{{ sfdc_api_version }}", tty: True, envs: { bypass_auth_uri: "{{ auth_bypass_url }}", database: "{{ db_host }}", database_port: "{{ db_port }}", ldap_host: "{{ ldap_host }}", ldap_port: "{{ ldap_port }}", api_version: "{{api_version}}"} , volumes: ["/home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version }}/{{sfdc_api_version }}/api/logs:/home/api/deploy/rest/logs:rw"]}
+
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"

@@ -1,0 +1,11 @@
+- hosts: "{{ hosts }}"
+  sudo: yes
+  sudo_user: "{{ sudo_user }}"
+  gather_facts: no
+  tasks:
+    - include: tasks/docker/fragments/check_started.yml
+    - include: tasks/docker/build.yml       
+      vars:     
+        docker_tags:
+         - "{{ version }}"   
+     

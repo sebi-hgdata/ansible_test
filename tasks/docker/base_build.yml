@@ -1,0 +1,10 @@
+# base docker images
+  #- name: 'pull ubuntu:14.04.2'
+  #  shell: "docker pull ubuntu:14.04.2"
+- name: 'build base docker images'
+  include: fragments/build.yml
+  vars:         
+      docker_state: present
+      docker_tags:
+        - base
+      images: "{{ base_images }}"

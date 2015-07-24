@@ -1,0 +1,13 @@
+- shell: ls -prt /home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version_to_check }} | grep -v / | grep {{inventory_hostname}} | tail -1
+  register: last_deploy_cmd
+  
+- stat: path=/home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version_to_check }}/{{ last_deploy_cmd.stdout }}
+  register: st
+  when: last_deploy_cmd.stdout != ""
+  
+- shell: cat  /home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version_to_check }}/{{ last_deploy_cmd.stdout }}
+  when: last_deploy_cmd.stdout != "" and st.stat.exists
+  register: previous_timestamp_cmd
+    
+- set_fact: previous_timestamp={{ previous_timestamp_cmd.stdout }}
+  when: last_deploy_cmd.stdout != "" and st.stat.exists

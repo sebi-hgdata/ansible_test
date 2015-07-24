@@ -1,0 +1,5 @@
+- name: "push images"
+  shell: "docker push {{ item[0].name }}:{{ item[1] }}"
+  with_nested: 
+    - images
+    - docker_tags  

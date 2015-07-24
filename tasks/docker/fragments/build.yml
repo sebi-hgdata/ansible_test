@@ -1,0 +1,5 @@
+- name: "build images"
+  docker_image: path="{{ item[0].path }}" name="{{ item[0].name }}" tag="{{ item[1] }}" state="{{ docker_state }}"  
+  with_nested: 
+    - images
+    - docker_tags  

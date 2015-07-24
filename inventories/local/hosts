@@ -1,0 +1,41 @@
+ci_cd ansible_ssh_host=127.0.0.1 
+build_slave ansible_ssh_host=127.0.0.1
+staging_envs ansible_ssh_host=127.0.0.1
+
+[builders]
+api
+httpd
+es
+kibana
+ldap
+db
+logstash
+ 
+[builders:vars]
+ansible_ssh_host=127.0.0.1
+
+[dbs]
+db
+ldap
+[dbs:vars]
+ansible_ssh_host=127.0.0.1
+
+[elk]
+es
+kibana
+[elk:vars]
+ansible_ssh_host=127.0.0.1
+
+[apis]
+api
+logstash 
+httpd
+admin_ui
+[apis:vars]
+ansible_ssh_host=127.0.0.1
+
+
+[all:vars]
+api_version=v7
+domain=localhost
+auth_bypass_url=localhost

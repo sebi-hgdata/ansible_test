@@ -1,0 +1,11 @@
+images:
+  - name: "{{ docker_repo_name }}/elasticsearch"
+    path: "{{ docker_elk }}/elasticsearch" 
+
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "es-", version: "{{ sfdc_api_version }}", volumes: ["/home/{{ ansible_ssh_user }}/elasticsearch:/home/elasticsearch"], ports: "9200:9200", tty: True}
+            
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"      

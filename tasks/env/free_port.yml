@@ -1,0 +1,5 @@
+- shell: "r=$(( $RANDOM % 40000 + 10000 )) && ! nc -z localhost $r && echo $r"  
+  args:
+    executable: "/bin/bash"
+  register: port_cmd
+- set_fact: listen_port={{ port_cmd.stdout }}

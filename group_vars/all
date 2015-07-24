@@ -1,0 +1,29 @@
+local_user: "{{ lookup('env', 'USER') }}"
+ansible_base: "/home/{{ ansible_ssh_user }}/hgdata/sfdc-ops"
+docker_images_base: "{{ ansible_base }}/docker"
+docker_apps: '{{docker_images_base}}/apps'
+docker_apps_base: '{{docker_apps}}/base'
+
+docker_dev_env: '{{docker_images_base}}/dev_env'
+docker_mininet: '{{docker_images_base}}/hosts/mininet'
+docker_script_testing: '{{docker_images_base}}/hosts/script_testing'
+
+docker_state: 'build'
+docker_repo_name: 'hgdata1'
+
+github_user: "fsfsdfy"
+github_pass: "fsfsdfsd"
+
+git_key: "keys/git_hg"
+
+sudo_user: "root"
+
+docker_apps_sfdcapi: '{{docker_apps}}/sfdcapi'
+docker_apps_admin_ui: '{{docker_apps}}/admin_ui'
+
+docker_elk: '{{docker_apps_sfdcapi}}/elk'
+
+ec2_access_key: dwsds 
+ec2_secret_key: fsfsdfsd
+
+rolling_update: 'True'

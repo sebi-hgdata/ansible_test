@@ -1,0 +1,5 @@
+- include: fragments/start.yml  
+  vars:
+    timestamp: "{{ deploy_timestamp }}"
+- shell : echo {{ deploy_timestamp }} > /home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version }}/{{inventory_hostname}}_{{ deploy_timestamp }}.timestamp
+  sudo: no

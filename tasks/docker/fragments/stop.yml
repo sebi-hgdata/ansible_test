@@ -1,0 +1,5 @@
+- name: 'stop containers'
+  shell: "docker stop --time=20 {{ item.container_config.name }}"
+  with_items:
+      - "{{ containers }}"
+  ignore_errors: yes

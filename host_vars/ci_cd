@@ -1,0 +1,9 @@
+docker_tags:
+   - "latest"
+images: 
+  - name: "{{ docker_repo_name }}/jenkins"
+    path: "{{ docker_images_base }}/jenkins"
+    
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"

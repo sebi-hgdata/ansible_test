@@ -1,0 +1,15 @@
+images: 
+  - name: "{{ docker_repo_name }}/persistence"
+    path: "{{ docker_apps_sfdcapi }}/persistence" 
+
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"
+  - name: mysql
+    path: "{{ docker_apps_base }}/mysql"
+         
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "db-{{ api_version }}-{{timestamp}}",version: "{{ sfdc_api_version }}", volumes_from: "{{ persistence_data_container }}", ports: "{{ listen_port }}:3306", tty: True}
+
+data_file: "HG_Data_API_2015-07-08.zip"

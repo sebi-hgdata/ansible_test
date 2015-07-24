@@ -1,0 +1,19 @@
+images:     
+  - name: "{{ docker_repo_name }}/httpd"
+    path: "{{ docker_apps_sfdcapi }}/httpd"
+      
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"
+  - name: httpd
+    path: "{{ docker_apps_base }}/httpd"
+        
+volumes: 
+  - "/home/{{ ansible_ssh_user }}/hgdata/deployments/httpd/private:/etc/ssl/private:rw"
+  - "/home/{{ ansible_ssh_user }}/hgdata/deployments/httpd/certs:/etc/ssl/certs:ro"
+  - "/home/{{ ansible_ssh_user }}/hgdata/deployments/httpd/status:/home/www-data/status:ro"
+  - "/home/{{ ansible_ssh_user }}/hgdata/deployments/httpd/sites:/etc/apache2/sites-available:rw"
+httpd_name: "httpd-"
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "{{ httpd_name}}", ports: "443:443", version: "{{ sfdc_api_version }}" ,  volumes: "{{ volumes }}"}

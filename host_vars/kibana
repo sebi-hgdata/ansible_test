@@ -1,0 +1,12 @@
+kibana_port: 5061
+images:     
+  - name: "{{ docker_repo_name }}/kibana"
+    path: "{{ docker_elk }}/kibana"
+    
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "kibana-", version: "{{ sfdc_api_version }}", envs: {es: "{{ es }}"}, ports: "{{ kibana_port }}:5601", tty: True}  
+ 
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"                

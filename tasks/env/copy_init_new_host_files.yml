@@ -1,0 +1,23 @@
+  - name: Create ansible dirs
+    file: path="{{ copy_to }}/ansible/tasks/env" state=directory 
+    tags:
+      - always
+  - name: Create ansible dirs
+    file: path="{{ copy_to }}/ansible/files/keys" state=directory 
+    tags:
+      - always
+  - copy: src={{ ansible_base }}/scripts/parts/install_ansible.sh dest={{ copy_to }}/install_ansible.sh mode="u+rwx"
+    tags:
+     - always
+  - copy: src={{ ansible_base }}/ansible/init_new_host.yml dest={{ copy_to }}/ansible/init_new_host.yml
+    tags:
+      - always  
+  - copy: src={{ ansible_base }}/ansible/tasks/env/init_deps.yml dest={{ copy_to }}/ansible/tasks/env/init_deps.yml
+    tags:
+      - always       
+  - copy: src={{ ansible_base }}/ansible/files/keys/git_hg dest={{ copy_to }}/ansible/files/keys/git_hg
+    tags:
+      - always  
+  - copy: src={{ ansible_base }}/ansible/files/keys/dev dest={{ copy_to }}/ansible/files/keys/dev
+    tags:
+      - always 

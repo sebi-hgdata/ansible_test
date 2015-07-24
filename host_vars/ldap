@@ -1,0 +1,13 @@
+images: 
+  - name: "{{ docker_repo_name }}/ldap"
+    path: "{{ docker_apps_sfdcapi }}/ldap"   
+
+ldap_ldif_output: "/home/{{ ansible_ssh_user }}/hgdata/deployments/{{ api_version }}/ldif"
+ldap_ldif_container_input: "/home/openldap/hgdata/prevs"                   
+containers:
+    - image: "{{images[0].name}}"
+      container_config: {name: "ldap-{{ api_version }}-{{timestamp}}", volumes_from: "{{ ldap_data_container }}", volumes: ["{{ ldap_ldif_output }}:{{ldap_ldif_container_input}}"], version: "{{ sfdc_api_version }}", ports: "{{ listen_port }}:389", tty: True}
+      
+base_images:
+  - name: origin
+    path: "{{ docker_apps_base }}/origin"

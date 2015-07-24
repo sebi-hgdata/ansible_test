@@ -1,0 +1,5 @@
+copy_from: "."
+cert_file: "SSLCertificateFile /etc/ssl/certs/sfdc-api.crt"
+key: "SSLCertificateKeyFile  /etc/ssl/private/sfdc-api.key"
+cert_chain_file_and_header: ""
+domain: "localhost"

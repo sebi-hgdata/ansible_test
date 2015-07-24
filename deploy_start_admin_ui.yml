@@ -1,0 +1,48 @@
+---
+- hosts: admin_ui  
+  name: 'start admin ui'
+  sudo: yes
+  gather_facts: yes
+  tasks:
+     - include: tasks/docker/fragments/check_started.yml
+     
+     - include: tasks/env/free_port.yml
+     - include: tasks/env/get_last_deployed.yml
+       vars:
+          api_version_to_check: "{{ api_version }}"   
+     - include: tasks/docker/run.yml
+         
+     - include: tasks/docker/stop.yml   
+          
+- hosts: httpd  
+  name: 'restart apache'
+  gather_facts: no 
+  vars:
+    ui_port: "{{ hostvars['admin_ui']['listen_port'] }}"
+    ui_host: "{{ hostvars['admin_ui']['ansible_eth0']['ipv4']['address'] }}"
+  tasks:    
+    - include: tasks/env/get_last_deployed.yml
+      vars:
+          api_version_to_check: "{{ api_version }}"
+          
+    - shell: |
+         cat <<EOF 
+                "#" console_begin {{api_version}}
+                 ProxyPass /{{api_version}}/console http://{{ ui_host }}:{{ui_port}}
+                 ProxyPassReverse /{{api_version}}/console http://{{ ui_host }}:{{ui_port}}                                  
+                 ProxyPass /{{api_version}}/assets http://{{ ui_host }}:{{ui_port}}/assets
+                 ProxyPassReverse /{{api_version}}/assets http://{{ ui_host }}:{{ui_port}}/assets
+                 
+                 ProxyPass /simple-count http://{{ ui_host }}:{{ui_port}}/assets
+                 ProxyPassReverse /simple-count http://{{ ui_host }}:{{ui_port}}/assets
+                 
+                 
+                 "#" console_end {{api_version}}
+                       
+      register: admin_ui_proxy_cmd
+      
+      
+    - replace: dest="/home/{{ ansible_ssh_user }}/hgdata/deployments/httpd/sites/sfdcapi.conf" regexp="(?s)# console_begin {{api_version}}(.*)?# console_end {{api_version}}" replace="{{ admin_ui_proxy_cmd.stdout }}" backup=no
+    - shell: docker exec httpd- sudo apachectl -k graceful
+      sudo: yes
+    

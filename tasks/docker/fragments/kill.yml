@@ -1,0 +1,5 @@
+- name: 'kill containers'
+  shell: "docker kill {{ item.container_config.name }} && docker rm {{ item.container_config.name }}"
+  with_items:
+      - "{{ containers }}"
+  ignore_errors: yes
