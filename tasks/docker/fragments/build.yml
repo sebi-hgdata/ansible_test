@@ -1,3 +1,48 @@
+# following is the output from 1.9.2
+#TASK: [debug1] **************************************************************** 
+#ok: [admin_ui] => (item=[{'path': u'/home/seb/hgdata/sfdc-ops/docker/apps/admin_ui', 'name': u'hgdata1/admin_ui'}, u'1234']) => {
+#    "item": [
+#        {
+#            "name": "hgdata1/admin_ui", 
+#            "path": "/home/seb/hgdata/sfdc-ops/docker/apps/admin_ui"
+#        }, 
+#        "1234"
+#    ], 
+#    "var": {
+#        "item[0]": {
+#            "name": "hgdata1/admin_ui", 
+#            "path": "/home/seb/hgdata/sfdc-ops/docker/apps/admin_ui"
+#        }
+#    }
+#}
+#
+#TASK: [debug2] **************************************************************** 
+#ok: [admin_ui] => (item=[{'path': u'/home/seb/hgdata/sfdc-ops/docker/apps/admin_ui', 'name': u'hgdata1/admin_ui'}, u'1234']) => {
+#    "item": [
+#        {
+#            "name": "hgdata1/admin_ui", 
+#            "path": "/home/seb/hgdata/sfdc-ops/docker/apps/admin_ui"
+#        }, 
+#        "1234"
+#    ], 
+#    "var": {
+#        "item[0].path": "/home/seb/hgdata/sfdc-ops/docker/apps/admin_ui"
+#    }
+#}
+
+
+- name: "debug1"
+  debug: var=item[0]
+  with_nested: 
+    - images
+    - docker_tags  
+    
+- name: "debug2"
+  debug: var=item[0].path
+  with_nested: 
+    - images
+    - docker_tags  
+
 - name: "build images"
   docker_image: path="{{ item[0].path }}" name="{{ item[0].name }}" tag="{{ item[1] }}" state="{{ docker_state }}"  
   with_nested: 
