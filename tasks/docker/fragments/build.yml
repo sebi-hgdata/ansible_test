@@ -1,4 +1,5 @@
-
+- name: "include not taking in account sudo -> output should be root as we ahev sudo: yes in /build.yml"
+  shell: whoami
 - debug: msg="should be 'base' but it's {{ docker_tags }}"
 - name: "debug1"
   debug: msg="same as above {{ item[1] }}"

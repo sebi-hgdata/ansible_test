@@ -1,6 +1,7 @@
 - hosts: "{{ hosts }}"
   tasks:
-    - include: tasks/docker/build.yml       
+    - include: tasks/docker/build.yml    
+      sudo: yes
       vars:     
         docker_tags:
          - "{{ version }}"   
